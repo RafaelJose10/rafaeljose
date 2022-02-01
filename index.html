@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> setTimeout E setInterval[13].HTML </title>
+    <style>
+        body {
+            background: linear-gradient(to right, white, rgb(234, 0, 255), red, yellow, green, rgb(0, 255, 191), blue, rgb(33, 3, 114), black);
+            /* background-image: url(Cidadinha\ Visao\ de\ Cima.png); */
+        }
+        
+        img#obj {
+            /* background: linear-gradient(to bottom, rgb(255, 0, 179), red, rgb(255, 136, 0), yellow, rgb(136, 255, 0), rgb(0, 255, 234), rgb(2, 91, 255), rgb(47, 0, 255), rgb(195, 0, 255), rgb(255, 0, 136));
+            width: 15px;
+            height: 15px;
+            border: solid 2px black;
+            border-radius: 50%; */
+            width: 25px;
+            height: 12px;
+            position: absolute;
+            left: 70px;
+            top: 100px;
+            /* transform: rotate(-90deg); */
+            transform: rotateZ(-90deg);
+        }
+        
+        div#obst {
+            /* background-color: rgb(0, 0, 0); */
+            width: 250px;
+            height: 250px;
+            position: absolute;
+        }
+    </style>
+    <script>
+        var obj, Tecla, Coração, pxO, pxL, pyN, pyS, x, y;
+
+        var obst, larg, altu, pO, pL, pN, pS;
+        obst = new Array(), larg = new Array(), altu = new Array(), pO = new Array(), pL = new Array(), pN = new Array(), pS = new Array();
+
+        function Inicia() {
+            obj = window.document.getElementById('obj');
+            pxO = 62, pyN = 100;
+            x = 0, y = 0;
+            // pxL = 50, pyS = 50;
+            pxL = 25, pyS = 12;
+
+
+
+            obst = window.document.querySelectorAll("div#obst");
+            larg.push(67, 67, 433, 33, 33, 33, 80, 187, 33, 210, 254, 33, 100, 33, 435, 33, 243, 33, 117, 80, 33), altu.push(33, 33, 33, 365, 65, 332, 33, 33, 97.5, 33, 33, 298, 33, 57, 33, 396, 33, 175, 33, 33, 13);
+            pO.push(0, 0, 100, 67, 308, 536, 570, 101, 160, 194, 0, 254, 0, 67, 101, 372, 407, 536, 536, 570, 309), pN.push(151, 332, 66, 0, 0, 0, 151, 247, 149, 149, 418, 280.5, 536, 570, 580, 183, 332, 451, 418, 536, 614);
+
+
+            for (let c = 0; c < obst.length; c++) {
+                pL.push(pO[c] + larg[c]), pS.push(pN[c] + altu[c]);
+                obst[c].style.width = larg[c] + "px", obst[c].style.height = altu[c] + "px";
+                obst[c].style.left = pO[c] + "px", obst[c].style.top = pN[c] + "px";
+            }
+
+
+            window.document.addEventListener("keydown", Mover)
+            window.document.addEventListener("keyup", Parar);
+            Coração = setInterval(Cerebro, 15);
+        }
+
+        function Cerebro() {
+            // pxL = pxO + 50, pyS = pyN + 50;
+            pxL = pxO + 12, pyS = pyN + 7;
+
+
+            function PassarO() {
+                for (let c = 0; c < obst.length; c++) {
+                    // alert(c)
+                    if (pxO - 10 <= pL[c] && pxO + 10 >= pL[c] && pyN >= pN[c] && pyS <= pS[c]) return true
+                        // else return false;
+                }
+            };
+
+            function PassarN() {
+                for (let c = 0; c < obst.length; c++) {
+                    // alert(c)
+                    if (pyN - 10 <= pS[c] && pyN + 10 >= pS[c] && pxO >= pO[c] && pxL <= pL[c]) return true
+                };
+            }
+
+            function PassarL() {
+                for (let c = 0; c < obst.length; c++) {
+                    // alert(c)
+                    if (pxL + 10 >= pO[c] && pxL - 10 <= pO[c] && pyN >= pN[c] && pyS <= pS[c]) return true;
+                    // if (pxL + 5 >= pO[c] && pxL - 5 <= pO[c] && pyN >= pN[c] && pyS <= pS[c]) return true
+
+                    // else return false;
+                }
+            };
+
+            function PassarS() {
+                for (let c = 0; c < obst.length; c++) {
+                    if (pyS + 10 >= pN[c] && pyS - 10 <= pN[c] && pxO >= pO[c] && pxL <= pL[c]) return true;
+                }
+            }
+
+
+
+
+            for (let c = 0; c < obst.length; c++) {
+                if (x == -1) {
+                    if (pxO + 5 == pO[c] && pyS >= pN[c] && pyN <= pS[c] && PassarO() != true) x = 0, window.open("Carrinho Perdeu[0].HTML", '_self');
+                }
+                if (y == -1) {
+                    if (pyN == pN[c] && pxL >= pO[c] && pxO <= pL[c] && PassarN() != true) y = 0, window.open("Carrinho Perdeu[0].HTML", '_self');
+                }
+                if (x == 1) {
+                    if (pxL == pL[c] - 5 && pyS > pN[c] && pyN < pS[c] && PassarL() != true) x = 0, window.open("Carrinho Perdeu[0].HTML", '_self');
+                    // if (pxL == pL[c] - 5 && pyN > pN[c] && pyS < pS[c] && PassarL() != true) x = 0;
+                }
+                if (y == 1) {
+                    if (pyS == pS[c] - 5 && pxL > pO[c] && pxO < pL[c] && PassarS() != true) y = 0, window.open("Carrinho Perdeu[0].HTML", '_self');
+                }
+            };
+
+
+            // alert(window.innerHeight)
+            if (pyS + 10 > window.innerHeight) pyN -= 1;
+
+
+            if (x == -1) obj.style.transform = "rotateZ(0deg)";
+            if (y == -1) obj.style.transform = "rotateZ(90deg)";
+            if (x == 1) obj.style.transform = "rotateZ(180deg)";
+            if (y == 1) obj.style.transform = "rotateZ(-90deg)";
+
+            if (y == -1 && x == -1) obj.style.transform = "rotateZ(45deg)";
+            if (y == -1 && x == 1) obj.style.transform = "rotateZ(135deg)";
+            if (x == 1 && y == 1) obj.style.transform = "rotateZ(225deg)";
+            if (x == -1 && y == 1) obj.style.transform = "rotateZ(-45deg)";
+
+
+            pxO += x, pyN += y;
+            obj.style.left = pxO + "px", obj.style.top = pyN + "px";
+        }
+
+        function Mover(event) {
+            Tecla = event.keyCode;
+
+            if (Tecla == 37) x = -1;
+            if (Tecla == 38) y = -1;
+            if (Tecla == 39) x = 1;
+            if (Tecla == 40) y = 1, Velocidade = 1;
+
+        }
+
+        function Parar(event) {
+            // alert(pxO);
+            // alert(pxL)
+            Tecla = event.keyCode;
+            if (Tecla == 37 || Tecla == 39) x = 0;
+            if (Tecla == 38 || Tecla == 40) y = 0;
+        };
+
+
+        window.addEventListener('load', Inicia);
+    </script>
+</head>
+
+<body>
+
+    <img src="Cidadinha Visao de Cima.png" alt="" style="position: absolute; left: 0px; top: 0px;">
+
+    <div id="obst"></div>
+    <div id="obst"></div>
+    <div id="obst"></div>
+    <div id="obst"></div>
+    <div id="obst"></div>
+    <div id="obst"></div>
+    <div id="obst"></div>
+    <div id="obst"></div>
+    <div id="obst"></div>
+    <div id="obst"></div>
+    <div id="obst"></div>
+    <div id="obst"></div>
+    <div id="obst"></div>
+    <div id="obst"></div>
+    <div id="obst"></div>
+    <div id="obst"></div>
+    <div id="obst"></div>
+    <div id="obst"></div>
+    <div id="obst"></div>
+    <div id="obst"></div>
+    <div id="obst"></div>
+
+
+
+    <!-- <div id="obj"></div> -->
+    <img src="Carro Vermelho.png" alt="" id="obj">
+</body>
+
+</html>
